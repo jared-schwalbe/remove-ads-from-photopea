@@ -1,6 +1,6 @@
 {
   "name": "Remove Ads from Photopea",
-  "description": "Removes the ads from Photopea",
+  "description": "Hide the ads from the popular web-based Photoshop clone, Photopea",
   "version": "1.0",
   "manifest_version": 3,
   "icons": {
