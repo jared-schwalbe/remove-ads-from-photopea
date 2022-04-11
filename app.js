@@ -4,7 +4,7 @@ document.head.appendChild(style);
 
 function addCustomEvent() {
   const ADS_WIDTH = 320;
-  document.addEventListener('resizecanvas', (e) => {
+  document.addEventListener('resizecanvas', () => {
     // push the ads container outside of the viewport
     window.innerWidth = document.documentElement.clientWidth + ADS_WIDTH;
   });
