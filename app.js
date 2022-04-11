@@ -1,49 +1,35 @@
-// immediately hide the ads from the user
 const style = document.createElement('style');
 style.textContent = '.app > div:not(:first-child) { visibility: hidden; }';
 document.head.appendChild(style);
 
-// push the ads off the page by expanding window.innerWidth to exceed the actual window width
-function addResizeCanvasEvent() {
+function addCustomEvent() {
+  const ADS_WIDTH = 320;
   document.addEventListener('resizecanvas', (e) => {
-    window.innerWidth = document.documentElement.clientWidth + e.detail.adsWidth;
+    // push the ads container outside of the viewport
+    window.innerWidth = document.documentElement.clientWidth + ADS_WIDTH;
   });
 }
 
 // inject our custom event listener into the "main world"
-document.documentElement.setAttribute('onreset', `(${addResizeCanvasEvent})()`);
+document.documentElement.setAttribute('onreset', `(${addCustomEvent})()`);
 document.documentElement.dispatchEvent(new CustomEvent('reset'));
 document.documentElement.removeAttribute('onreset');
 
-function resizeWindow(e, adsWidth) {
-  if (!e.skip) {
-    // expand window.innerWidth through our custom event
-    document.dispatchEvent(new CustomEvent('resizecanvas', { detail: { adsWidth } }));
+function resize(event = {}) {
+  if (!event.skip) {
+    document.dispatchEvent(new CustomEvent('resizecanvas'));
 
     // trigger another resize event to update any listeners with the new window.innerWidth
     const resizeEvent = new Event('resize');
     resizeEvent.skip = true;
     window.dispatchEvent(resizeEvent);
   }
-};
+}
 
-// wait for the ads container to load into the DOM
-const initialResize = setInterval(() => {
-  const app = document.querySelector('.app');
-  const content = app && app.childElementCount ? app.children[0] : {};
-  const adsWidth = window.innerWidth - content.offsetWidth;
+let debounce;
+window.addEventListener('resize', event => {
+  clearTimeout(debounce);
+  debounce = setTimeout(() => resize(event), 100);
+});
 
-  if (adsWidth) {
-    clearInterval(initialResize);
-
-    // a slight delay helps with exceeding call stack size
-    let resizeTimeout;
-    window.onresize = (e) => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => resizeWindow(e, adsWidth), 100);
-    };
-
-    // begin by triggering a resize event
-    window.dispatchEvent(new CustomEvent('resize'));
-  }
-}, 200);
+resize();
