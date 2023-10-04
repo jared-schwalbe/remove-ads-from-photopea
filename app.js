@@ -3,7 +3,7 @@ style.textContent = '.app > div:not(:first-child) { visibility: hidden; }';
 document.head.appendChild(style);
 
 function addCustomEvent() {
-  const ADS_WIDTH = window.screen.width < 1600 ? 180 : 320;
+  const ADS_WIDTH = window.screen.width < 1180 ? 180 : 320;
   document.addEventListener('resizecanvas', () => {
     // push the ads container outside of the viewport
     window.innerWidth = document.documentElement.clientWidth + ADS_WIDTH;
