@@ -69,7 +69,6 @@ const observer = new MutationObserver((mutationsList, observer) => {
         addedNode.nodeType === Node.ELEMENT_NODE &&
         addedNode.classList.contains('app')
       ) {
-        console.log('app added');
         resize();
         observer.disconnect();
         break;
