@@ -2,7 +2,7 @@
   "name": "Remove Ads from Photopea",
   "description": "Hides the ads on Photopea",
   "author": "Jared Schwalbe",
-  "version": "1.2.2",
+  "version": "2.0.0",
   "manifest_version": 3,
   "icons": {
     "16": "img/icon16.png",
